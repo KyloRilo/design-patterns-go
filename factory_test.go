@@ -76,8 +76,8 @@ func getGun(gunType string) (IGun, error) {
 }
 
 func TestFactory(t *testing.T) {
-	ak47, _ := getGun("ak47")
-	musket, _ := getGun("musket")
+	ak47, _ := getGun(AK47)
+	musket, _ := getGun(MUSKET)
 
 	printDetails(ak47)
 	printDetails(musket)
