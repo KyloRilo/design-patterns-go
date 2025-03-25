@@ -1,15 +1,14 @@
-package main
+package factory
 
 import (
 	"fmt"
-	"testing"
 )
 
 type IGun interface {
 	setName(name string)
 	setPower(power int)
-	getName() string
-	getPower() int
+	GetName() string
+	GetPower() int
 }
 
 type Gun struct {
@@ -21,7 +20,7 @@ func (g *Gun) setName(name string) {
 	g.name = name
 }
 
-func (g *Gun) getName() string {
+func (g *Gun) GetName() string {
 	return g.name
 }
 
@@ -29,7 +28,7 @@ func (g *Gun) setPower(power int) {
 	g.power = power
 }
 
-func (g *Gun) getPower() int {
+func (g *Gun) GetPower() int {
 	return g.power
 }
 
@@ -64,7 +63,7 @@ func newMusket() IGun {
 	}
 }
 
-func getGun(gunType string) (IGun, error) {
+func GetGun(gunType string) (IGun, error) {
 	switch gunType {
 	case AK47:
 		return newAk47(), nil
@@ -73,19 +72,4 @@ func getGun(gunType string) (IGun, error) {
 	}
 
 	return nil, fmt.Errorf("Wrong gun type passed")
-}
-
-func TestFactory(t *testing.T) {
-	ak47, _ := getGun(AK47)
-	musket, _ := getGun(MUSKET)
-
-	printDetails(ak47)
-	printDetails(musket)
-}
-
-func printDetails(g IGun) {
-	fmt.Printf("Gun: %s", g.getName())
-	fmt.Println()
-	fmt.Printf("Power: %d", g.getPower())
-	fmt.Println()
 }

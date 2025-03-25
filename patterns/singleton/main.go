@@ -1,9 +1,8 @@
-package main
+package singleton
 
 import (
 	"fmt"
 	"sync"
-	"testing"
 )
 
 var lock = &sync.Mutex{}
@@ -12,7 +11,7 @@ type single struct{}
 
 var singleton *single
 
-func getInstance() *single {
+func GetInstance() *single {
 	if singleton == nil {
 		fmt.Println("Creating singleton now.")
 		lock.Lock()
@@ -23,12 +22,4 @@ func getInstance() *single {
 	}
 
 	return singleton
-}
-
-func TestSingleton(t *testing.T) {
-	for i := 0; i < 30; i++ {
-		go getInstance()
-	}
-
-	fmt.Scanln()
 }

@@ -1,8 +1,7 @@
-package main
+package adapter
 
 import (
 	"fmt"
-	"testing"
 )
 
 type Computer interface {
@@ -29,24 +28,10 @@ func (c *Client) InsertLightningConnector(com Computer) {
 }
 
 type WindowsAdapter struct {
-	windowsMachine *Windows
+	WindowsMachine *Windows
 }
 
 func (w *WindowsAdapter) InsertLightningPort() {
 	fmt.Println("Adapter converting")
-	w.windowsMachine.InsertUsbPort()
-}
-
-func TestAdapter(t *testing.T) {
-	client := &Client{}
-	mac := &Mac{}
-
-	client.InsertLightningConnector(mac)
-
-	windowsMachine := &Windows{}
-	windowsMachineAdapter := &WindowsAdapter{
-		windowsMachine: windowsMachine,
-	}
-
-	client.InsertLightningConnector(windowsMachineAdapter)
+	w.WindowsMachine.InsertUsbPort()
 }

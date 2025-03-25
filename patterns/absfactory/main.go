@@ -1,15 +1,14 @@
-package main
+package absfactory
 
 import (
 	"fmt"
-	"testing"
 )
 
 type IMerch interface {
 	setLogo(logo string)
 	setSize(size int)
-	getLogo() string
-	getSize() int
+	GetLogo() string
+	GetSize() int
 }
 
 type IShoe IMerch
@@ -22,7 +21,7 @@ func (s *Shoe) setLogo(logo string) {
 	s.logo = logo
 }
 
-func (s *Shoe) getLogo() string {
+func (s *Shoe) GetLogo() string {
 	return s.logo
 }
 
@@ -30,7 +29,7 @@ func (s *Shoe) setSize(size int) {
 	s.size = size
 }
 
-func (s *Shoe) getSize() int {
+func (s *Shoe) GetSize() int {
 	return s.size
 }
 
@@ -44,7 +43,7 @@ func (s *Shirt) setLogo(logo string) {
 	s.logo = logo
 }
 
-func (s *Shirt) getLogo() string {
+func (s *Shirt) GetLogo() string {
 	return s.logo
 }
 
@@ -52,13 +51,13 @@ func (s *Shirt) setSize(size int) {
 	s.size = size
 }
 
-func (s *Shirt) getSize() int {
+func (s *Shirt) GetSize() int {
 	return s.size
 }
 
 type ISportsFactory interface {
-	makeShoe() IShoe
-	makeShirt() IShirt
+	MakeShoe() IShoe
+	MakeShirt() IShirt
 }
 
 const (
@@ -71,7 +70,7 @@ type AdidasShoe struct {
 	Shoe
 }
 
-func (a *Adidas) makeShoe() IShoe {
+func (a *Adidas) MakeShoe() IShoe {
 	return &AdidasShoe{
 		Shoe: Shoe{
 			logo: ADIDAS,
@@ -84,7 +83,7 @@ type AdidasShirt struct {
 	Shirt
 }
 
-func (a *Adidas) makeShirt() IShirt {
+func (a *Adidas) MakeShirt() IShirt {
 	return &AdidasShirt{
 		Shirt: Shirt{
 			logo: ADIDAS,
@@ -98,7 +97,7 @@ type NikeShoe struct {
 	Shoe
 }
 
-func (n *Nike) makeShoe() IShoe {
+func (n *Nike) MakeShoe() IShoe {
 	return &NikeShoe{
 		Shoe: Shoe{
 			logo: NIKE,
@@ -111,7 +110,7 @@ type NikeShirt struct {
 	Shirt
 }
 
-func (n *Nike) makeShirt() IShirt {
+func (n *Nike) MakeShirt() IShirt {
 	return &NikeShirt{
 		Shirt: Shirt{
 			logo: NIKE,
@@ -129,35 +128,4 @@ func GetSportsFactory(brand string) (ISportsFactory, error) {
 	}
 
 	return nil, fmt.Errorf("Wrong brand type passed")
-}
-
-func TestAbsFactory(t *testing.T) {
-	adidasFactory, _ := GetSportsFactory("adidas")
-	nikeFactory, _ := GetSportsFactory("nike")
-
-	nikeShoe := nikeFactory.makeShoe()
-	nikeShirt := nikeFactory.makeShirt()
-
-	adidasShoe := adidasFactory.makeShoe()
-	adidasShirt := adidasFactory.makeShirt()
-
-	printShoeDetails(nikeShoe)
-	printShirtDetails(nikeShirt)
-
-	printShoeDetails(adidasShoe)
-	printShirtDetails(adidasShirt)
-}
-
-func printShoeDetails(s IShoe) {
-	fmt.Printf("Logo: %s", s.getLogo())
-	fmt.Println()
-	fmt.Printf("Size: %d", s.getSize())
-	fmt.Println()
-}
-
-func printShirtDetails(s IShirt) {
-	fmt.Printf("Logo: %s", s.getLogo())
-	fmt.Println()
-	fmt.Printf("Size: %d", s.getSize())
-	fmt.Println()
 }
